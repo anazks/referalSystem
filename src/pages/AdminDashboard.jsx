@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import './Dashboard.css';
 
 const AdminDashboard = ({ user, logout }) => {
@@ -23,7 +23,7 @@ const AdminDashboard = ({ user, logout }) => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/auth/admin/users', {
+      const res = await api.get('/api/auth/admin/users', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setUsers(res.data);
@@ -34,7 +34,7 @@ const AdminDashboard = ({ user, logout }) => {
 
   const fetchShops = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/shops/admin/all', {
+      const res = await api.get('/api/shops/admin/all', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setShops(res.data);
@@ -45,7 +45,7 @@ const AdminDashboard = ({ user, logout }) => {
 
   const handleVerify = async (shopId) => {
     try {
-      await axios.patch(`http://localhost:5000/api/shops/verify/${shopId}`, {}, {
+      await api.patch(`/api/shops/verify/${shopId}`, {}, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       fetchShops();
@@ -76,12 +76,12 @@ const AdminDashboard = ({ user, logout }) => {
     setLoading(true);
     try {
       if (editingUserId) {
-        await axios.patch(`http://localhost:5000/api/auth/admin/update-user/${editingUserId}`, formData, {
+        await api.patch(`/api/auth/admin/update-user/${editingUserId}`, formData, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         alert('User updated successfully!');
       } else {
-        await axios.post('http://localhost:5000/api/auth/admin/create-user', formData, {
+        await api.post('/api/auth/admin/create-user', formData, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         alert('User created successfully!');

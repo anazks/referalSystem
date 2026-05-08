@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 import './Login.css';
 
@@ -19,7 +19,7 @@ const Login = ({ setUser }) => {
         ? { username, password } 
         : { username, mobile };
         
-      const response = await axios.post(`http://localhost:5000/api/auth/login`, payload);
+      const response = await api.post(`/api/auth/login`, payload);
       const userData = {
         token: response.data.token,
         role: response.data.role,

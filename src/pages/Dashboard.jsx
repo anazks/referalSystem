@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 import './Dashboard.css';
 
@@ -19,7 +19,7 @@ const Dashboard = ({ user, logout }) => {
 
   const fetchShops = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/shops', {
+      const res = await api.get('/api/shops', {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setShops(res.data);
@@ -32,7 +32,7 @@ const Dashboard = ({ user, logout }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/shops', formData, {
+      await api.post('/api/shops', formData, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setFormData({ shopName: '', area: '', mobileNumber: '', onboardingDate: '' });
